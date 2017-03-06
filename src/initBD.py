@@ -16,6 +16,18 @@ print("Connecté :" ,database.is_connected())
 #On crée un curseur pour effectuer des opérations
 cursor = database.cursor()
 
+#Nettoyage base
+delete = ("INSTALLATIONS", "EQUIPEMENTS", "ACTIVITES")
+for name in delete:
+    try:
+        print("Deleting table {}: ".format(name), end='')
+        cursor.execute("DROP TABLE "+name)
+    except mysql.connector.Error as err:
+        print(err.msg)
+    else:
+        print("OK")
+    
+
 #Création des tables
 
 TABLES = {}
@@ -37,20 +49,29 @@ TABLES['EQUIPEMENTS'] = (
     "  `idIns` INT(11) NOT NULL,"
     "  `idEqu` INT(11) NOT NULL,"
     "  PRIMARY KEY (`idIns`,`idEqu`),"
-    "  FOREIGN KEY(`idIns`) REFERENCES `INSTALLATIONS`(`idIns`),"
-    "  FOREIGN KEY(`idEqu`) REFERENCES `EQUIPEMENTS`(`idEqu`)"
+    "  CONSTRAINT `fk_idIns` FOREIGN KEY(`idIns`) REFERENCES `INSTALLATIONS`(`idIns`) ON DELETE CASCADE,"
+    "  CONSTRAINT `fk_idEqu` FOREIGN KEY(`idEqu`) REFERENCES `ACTIVITES`(`idEqu`) ON DELETE CASCADE"
     ") ENGINE=InnoDB")
 TABLES['ACTIVITES'] = (
     "CREATE TABLE `ACTIVITES` ("
     "  `idEqu` INT(11) NOT NULL,"
     "  `actCode` INT(11) NOT NULL,"
     "  `actNom` VARCHAR(40),"
-    "  `actNiveau` VARCHAR(20)"
+    "  `actNiveau` VARCHAR(20),"
+    "  PRIMARY KEY (`idEqu`)"
     ") ENGINE=InnoDB")
 
 for name in TABLES.keys():
-    print(name)
-    cursor.execute(TABLES[name])
+    try:
+        print("Creating table {}: ".format(name), end='')
+        cursor.execute(TABLES[name])
+    except mysql.connector.Error as err:
+            print(err.msg)
+    else:
+        print("OK")
+
 
 
 database.commit()
+cursor.close()
+database.close()

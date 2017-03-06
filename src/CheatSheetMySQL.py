@@ -75,6 +75,20 @@ cursor.executemany(stmt, data)
 
 """
 
+'''
+#Récupération de données des résultats (ça marche)
+query = ("SELECT insNom, nomCommune FROM INSTALLATIONS "
+         "WHERE codePostal BETWEEN %s AND %s")
+codeLow = 44130
+codeHigh = 44150
+
+
+cursor.execute(query, (codeLow, codeHigh))
+
+for (insNom, nomCommune) in cursor:
+    print("Nom installation : {} à {}".format(insNom,nomCommune))
+'''
+
 
 database.commit();
 
