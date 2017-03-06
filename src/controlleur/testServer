@@ -1,4 +1,4 @@
-from bottle import route, run, Bottle, template
+from bottle import *
 
 @route('/hello')
 def hello():
@@ -8,10 +8,9 @@ def hello():
 def afficher(data = "Bonjour"):
     return template("La page vous dit : {{data}}", data=data)
 
-
-
-
-
+@route('/')
+def accueil():
+    return static_file("index", root='./')
 
 
 
