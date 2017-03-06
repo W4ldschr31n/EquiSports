@@ -24,9 +24,9 @@ def updateFile():
         datafile1.write(urlopen(url1).read())
         print('Ecriture fiches_installations.json finie')
 
-    with open('../data/fichesEquipements.json', 'wb') as datafile2:
+    with open('../data/fiches_equipements.json', 'wb') as datafile2:
         datafile2.write(urlopen(url2).read())
-        print('Ecriture ficheEquipements.json finie')
+        print('Ecriture fiche_equipements.json finie')
 
     with open('../data/fiches_activites.json', 'wb') as datafile3:
         datafile3.write(urlopen(url3).read())

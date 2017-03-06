@@ -1,0 +1,30 @@
+from bottle import route, run, Bottle, template
+
+@route('/hello')
+def hello():
+    return "Hello World!"
+
+@route('/print/<data>')
+def afficher(data = "Bonjour"):
+    return template("La page vous dit : {{data}}", data=data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+run(host='localhost', port=8665, debug=True)

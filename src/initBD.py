@@ -17,7 +17,7 @@ print("Connecté :" ,database.is_connected())
 cursor = database.cursor()
 
 #Nettoyage base
-delete = ("INSTALLATIONS", "EQUIPEMENTS", "ACTIVITES")
+delete = ("EQUIPEMENTS", "ACTIVITES", "INSTALLATIONS")
 for name in delete:
     try:
         print("Deleting table {}: ".format(name), end='')
@@ -48,6 +48,7 @@ TABLES['EQUIPEMENTS'] = (
     "CREATE TABLE `EQUIPEMENTS` ("
     "  `idIns` INT(11) NOT NULL,"
     "  `idEqu` INT(11) NOT NULL,"
+    "  `equNom` VARCHAR(40) NOT NULL,"
     "  PRIMARY KEY (`idIns`,`idEqu`),"
     "  CONSTRAINT `fk_idIns` FOREIGN KEY(`idIns`) REFERENCES `INSTALLATIONS`(`idIns`) ON DELETE CASCADE,"
     "  CONSTRAINT `fk_idEqu` FOREIGN KEY(`idEqu`) REFERENCES `ACTIVITES`(`idEqu`) ON DELETE CASCADE"
@@ -57,11 +58,11 @@ TABLES['ACTIVITES'] = (
     "  `idEqu` INT(11) NOT NULL,"
     "  `actCode` INT(11) NOT NULL,"
     "  `actNom` VARCHAR(40),"
-    "  `actNiveau` VARCHAR(20),"
-    "  PRIMARY KEY (`idEqu`)"
+    "  `actNiveau` VARCHAR(40),"
+    "  PRIMARY KEY (`idEqu`,`actCode`, `actNom`)"
     ") ENGINE=InnoDB")
-
-for name in TABLES.keys():
+NAMES= ('INSTALLATIONS', 'ACTIVITES', 'EQUIPEMENTS')
+for name in NAMES:
     try:
         print("Creating table {}: ".format(name), end='')
         cursor.execute(TABLES[name])

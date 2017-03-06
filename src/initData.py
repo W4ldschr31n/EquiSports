@@ -1,5 +1,6 @@
 import mysql.connector
 import json
+from urllib.request import urlopen
 
 
 #On définit des méthodes pour extraire les donnée intéressantes selon les fichiers (stockés sur le disque)
@@ -19,20 +20,41 @@ def parseFileAct(data):
     result = [(tuple["EquipementId"],tuple["ActCode"],tuple["ActLib"],tuple["ActNivLib"]) for tuple in dataAct]
     return result
 
+def updateFile():
+    url1 = 'http://data.paysdelaloire.fr/api/publication/23440003400026_J335/installations_table/content/?format=json'
+    url2 = 'http://data.paysdelaloire.fr/api/publication/23440003400026_J336/equipements_table/content/?format=json'
+    url3 = 'http://data.paysdelaloire.fr/api/publication/23440003400026_J334/equipements_activites_table/content/?format=json'
+
+    with open('../data/fiches_installations.json', 'wb') as datafile1:
+        datafile1.write(urlopen(url1).read())
+        print('Ecriture fiches_installations.json finie')
+
+    with open('../data/fiches_equipements.json', 'wb') as datafile2:
+        datafile2.write(urlopen(url2).read())
+        print('Ecriture fiche_equipements.json finie')
+
+    with open('../data/fiches_activites.json', 'wb') as datafile3:
+        datafile3.write(urlopen(url3).read())
+        print('Ecriture fiches_activites.json finie')
+
+
 #Accès aux fichiers de données
 chemins={
     'activites' : '../data/fiches_activites.json',
-    'equipements' : '../data/fichesEquipements.json',
+    'equipements' : '../data/fiches_equipements.json',
     'install' : '../data/fiches_installations.json'
 }
 
 
 #On crée des jeux de données traitées
-dataInstall = parseFileInstall(json.load(open(chemins['install'])))
-#dataEquip = parseFileAct(json.load(open(chemins['equipements'])))
-#dataAct = parseFileAct(json.load(open(chemins['activites'])))
+#updateFile()
 
-print(dataInstall)
+
+dataInstall = parseFileInstall(json.load(open(chemins['install'])))
+dataEquip = parseFileEquip(json.load(open(chemins['equipements'])))
+dataAct = parseFileAct(json.load(open(chemins['activites'])))
+
+#print(dataInstall)
 #print(dataEquip)
 #print(dataAct)
 
@@ -54,16 +76,17 @@ cursor = database.cursor()
 
 insertions={}
 
-insertions["install"] = ("INSERT INTO `INSTALLATIONS` "\
+insertions["install"] = ("INSERT IGNORE INTO `INSTALLATIONS` "\
                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
-insertions["equip"] = ("INSERT INTO `EQUIPEMENTS` "\
+insertions["equip"] = ("INSERT IGNORE INTO `EQUIPEMENTS` "\
                "VALUES (%s, %s, %s)")
-insertions["act"] = ("INSERT INTO `ACTIVITES` "\
+insertions["act"] = ("INSERT IGNORE INTO `ACTIVITES` "\
                "VALUES (%s, %s, %s, %s)")
 
 cursor.executemany(insertions["install"], dataInstall)
-cursor.executemany(insertions["equip"], dataEquip)
 cursor.executemany(insertions["act"], dataAct)
+cursor.executemany(insertions["equip"], dataEquip)
+
 
 
 database.commit()
