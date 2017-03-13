@@ -43,15 +43,15 @@ def findByNiv(commune, activite, niveau):
 
 def findByComAct(commune, activite, niveau):
 
-    return requeteCondition("i.nomCommune LIKE '%"+commune+"%' group by a.actNom and a.actNom LIKE '%"+activite+"%' group by i.nomCommune")
+    return requeteCondition("i.nomCommune LIKE '%"+commune+"%' and a.actNom LIKE '%"+activite+"%' group by i.nomCommune")
 
 def findByActNiv(commune, activite, niveau):
 
-    return requeteCondition("a.actNom LIKE '%"+activite+"%' group by i.nomCommune and a.actNiveau = "+niveau+" group by i.insNom")
+    return requeteCondition("a.actNom LIKE '%"+activite+"%' and a.actNiveau = "+niveau+" group by i.insNom")
 
 def findByComNiv(commune, activite, niveau):
 
-    return requeteCondition("i.nomCommune LIKE '%"+commune+"%' group by a.actNom and a.actNiveau = "+niveau+" group by i.insNom")
+    return requeteCondition("i.nomCommune LIKE '%"+commune+"%' and a.actNiveau = "+niveau+" group by i.insNom")
 
 def findByNone():
 
@@ -61,11 +61,16 @@ def findByAll(commune, activite, niveau):
 
     return requeteCondition("i.nomCommune LIKE '%"+commune+"%' and a.actNom LIKE '%"+activite+"%' and a.actNiveau = "+niveau)
 
+
+#Tableau de fonctions dont l'index correspond à la combinaison de paramètres utilisés selon un calcul binaire.
+#niveau correspond à 2^0; activite correspond à 2^1 et commune correspond à 2^2
+#chaque "bit" correspondant à un paramètre est levé si on utilise le paramètre.
+#Par exemple si on veut utiliser la commune et l'activité, on utilise l'index 1*2^2+0*2^1+1*2^0 = 4+0+1 = 5
 tabFonctions = [findByNone,findByNiv,findByAct,findByActNiv,findByCom,findByComNiv,findByComAct,findByAll]
 
 def findByComActNiv(commune, activite, niveau):
-    index = 0 if commune=="" else 4
-    index += 0 if activite=="" else 2
-    index += 0 if niveau=="" else 1
+    index = 0 if commune=="Tout" or commune=="" else 4
+    index += 0 if activite=="Tout" or activite=="" else 2
+    index += 0 if niveau=="Tout" or niveau=="" else 1
     return tabFonctions[index](commune, activite, niveau)
 

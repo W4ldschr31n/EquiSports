@@ -5,13 +5,19 @@
     <title>Recherche équipements sportifs</title>
   </head>
   <body>
-    <form action="rechercheC" method="post">
+    <form action="rechercheBD" method="post">
       Commune <input type="text" name="commune" value="">
       <input type="submit" name="recherche" value="Rechercher">
-    </form>
-    <form action="rechercheA" method="post">
       Activite <input type="text" name="activite" value="">
+      Opt<input type="checkBox" name="check" value="">
+      Niveau <select name="niveau">
+      <option value="1">1</option>
+      <option value="1">1</option>
+      <option value="1">1</option>
+      <option value="1">1</option>
+    </select>
       <input type="submit" name="recherche" value="Rechercher">
+
     </form>
   </body>
 </html>

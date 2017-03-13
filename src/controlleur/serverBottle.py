@@ -12,8 +12,24 @@ from dao import *
 @route('/')
 @route('/recherche')
 def index():
-    return static_file("index", root='./vue')
+    return static_file("site.html", root='./vue/html')
 
+@route('/rechercheBD', method='POST')
+def resultat():
+    commune = request.forms.get("commune")
+    activite = request.forms.get("activite")
+    niveau = request.forms.get("niveau")
+    return findByComActNiv(commune,activite,niveau)
+
+@route('/img/<filename>')
+def routeIMG(filename):
+    return static_file(filename, root='./vue/img')
+
+@route('/css/<filename>')
+def routeCSS(filename):
+    return static_file(filename, root='./vue/css')
+
+"""
 @route('/doom')
 def apocalypse():
     return findByNone();
@@ -113,5 +129,6 @@ def getnomsAct():
 
     database.close()
     return s
+"""
 
 run(host='localhost', port=8666, debug=True)
