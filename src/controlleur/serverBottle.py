@@ -1,8 +1,49 @@
 from bottle import *
-import mysql.connector
+import sys
+path ="/hometu/etudiants/r/i/E155059S/PycharmProjects/ProdLog/src/controller"
+sys.path.append(path)
+from dao import *
+
 @route('/')
+@route('/recherche')
 def index():
-    return "Bienvenue sur notre application !"
+    return static_file("index", root='../vue')
+
+
+@route('/rechercheC', method='POST')
+def rechercheC():
+    commune = request.forms.get("commune")
+    return yo(commune);
+
+@route('/autoCompleteActivite', method='POST')
+def autoA(activite):
+    parameters ={
+    'host' : "infoweb",
+    'user' : "E155059S",
+    'database' : "E155059S",
+    'password': "E155059S"
+    }
+
+    database = mysql.connector.connect(**parameters)
+    cursor = database.cursor()
+
+    activite = request.forms.get("activite")
+    query = ("SELECT a.actNom from ACTIVITES WHERE (a.actNom LIKE '"+activite+"' OR '"+activite+"' LIKE a.actNom) group by a.actNom")
+
+    cursor.execute(query)
+    s=""
+    for (resultat) in cursor:
+       s+= (str(resultat))+"<br>"
+    cursor.close()
+
+    database.close()
+
+    return s;
+
+
+
+
+
 
 @route('/installations/<champ>')
 def getInstallationsChamp(champ = "*"):
