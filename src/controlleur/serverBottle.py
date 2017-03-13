@@ -1,5 +1,6 @@
 from bottle import *
 import sys
+import json
 path ="/hometu/etudiants/r/i/E155059S/PycharmProjects/ProdLog/src/controller"
 sys.path.append(path)
 from dao import *
@@ -28,6 +29,28 @@ def routeIMG(filename):
 @route('/css/<filename>')
 def routeCSS(filename):
     return static_file(filename, root='./vue/css')
+
+@route('/script/<filename>')
+def routeCSS(filename):
+    return static_file(filename, root='./vue/script')
+
+@route('/autoCom', method="GET")
+def autoCom():
+    commune = request.query.get("comm")
+    print(commune)
+    return json.dumps(getCommunes(commune))
+
+@route("/listeCommunes")
+def getListeCommunes():
+    return json.dumps(listeCommunes())
+
+@route("/listeActivites")
+def getListeActivites():
+    return json.dumps(listeActivites())
+
+@route("/listeNiveaux")
+def getListeNiveaux():
+    return json.dumps(listeNiveaux())
 
 """
 @route('/doom')

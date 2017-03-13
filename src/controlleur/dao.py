@@ -10,6 +10,75 @@ parameters ={
         'password': "E155059S"
         }
 
+def listeCommunes():
+    database = mysql.connector.connect(**parameters)
+    cursor = database.cursor()
+
+    query = "SELECT nomCommune from INSTALLATIONS group by nomCommune"
+
+    cursor.execute(query)
+
+    s=[]
+    for (resultat) in cursor:
+       s.append(resultat[0])
+
+    cursor.close()
+    database.close()
+
+    return s
+
+def listeActivites():
+    database = mysql.connector.connect(**parameters)
+    cursor = database.cursor()
+
+    query = "SELECT actNom from ACTIVITES group by actNom"
+
+    cursor.execute(query)
+
+    s=[]
+    for (resultat) in cursor:
+       s.append(resultat[0])
+
+    cursor.close()
+    database.close()
+
+    return s
+
+def listeNiveaux():
+    database = mysql.connector.connect(**parameters)
+    cursor = database.cursor()
+
+    query = "SELECT actNiveau from ACTIVITES group by actNiveau"
+
+    cursor.execute(query)
+
+    s=[]
+    for (resultat) in cursor:
+       s.append(resultat[0])
+
+    cursor.close()
+    database.close()
+
+    return s
+
+def getCommunes(commune):
+    database = mysql.connector.connect(**parameters)
+    cursor = database.cursor()
+    print(commune)
+
+    query = "SELECT nomCommune from INSTALLATIONS where nomCommune LIKE '%"+commune+"%' group by nomCommune"
+
+    cursor.execute(query)
+
+    s=[]
+    for (resultat) in cursor:
+       s.append(resultat[0])
+
+    cursor.close()
+    database.close()
+
+    return s
+
 def requeteCondition(condition):
     database = mysql.connector.connect(**parameters)
     cursor = database.cursor()
@@ -39,27 +108,27 @@ def findByAct(commune, activite, niveau):
 
 def findByNiv(commune, activite, niveau):
 
-    return requeteCondition("a.actNiveau = "+niveau+" group by i.insNom")
+    return requeteCondition("a.actNiveau LIKE '%"+niveau+"%' group by i.insNom")
 
 def findByComAct(commune, activite, niveau):
 
-    return requeteCondition("i.nomCommune LIKE '%"+commune+"%' and a.actNom LIKE '%"+activite+"%' group by i.nomCommune")
+    return requeteCondition("i.nomCommune LIKE '%"+commune+"%' and a.actNom LIKE '%"+activite+"%'")
 
 def findByActNiv(commune, activite, niveau):
 
-    return requeteCondition("a.actNom LIKE '%"+activite+"%' and a.actNiveau = "+niveau+" group by i.insNom")
+    return requeteCondition("a.actNom LIKE '%"+activite+"%' and a.actNiveau LIKE '%"+niveau+"%'")
 
 def findByComNiv(commune, activite, niveau):
 
-    return requeteCondition("i.nomCommune LIKE '%"+commune+"%' and a.actNiveau = "+niveau+" group by i.insNom")
+    return requeteCondition("i.nomCommune LIKE '%"+commune+"%' and a.actNiveau LIKE '%"+niveau+"%'")
 
-def findByNone():
+def findByNone(commune, activite, niveau):
 
     return requeteCondition("1")
 
 def findByAll(commune, activite, niveau):
 
-    return requeteCondition("i.nomCommune LIKE '%"+commune+"%' and a.actNom LIKE '%"+activite+"%' and a.actNiveau = "+niveau)
+    return requeteCondition("i.nomCommune LIKE '%"+commune+"%' and a.actNom LIKE '%"+activite+"%' and a.actNiveau LIKE '%"+niveau+"%'")
 
 
 #Tableau de fonctions dont l'index correspond à la combinaison de paramètres utilisés selon un calcul binaire.

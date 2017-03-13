@@ -4,20 +4,8 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="../css/site.css">
     <title>Recherche équipements sportifs</title>
-    <script src="jquery-3.1.1.min.js">
-    $("#go").click(function(){
-      $.ajax(){
-        url : 'rechercheBD',
-        type : 'POST',
-        dataType : 'json',
-        data : 'commune=Nantes&activite=Tout&niveau=Tout',
-        success : function(codeHtmlSucces, statut){
-        $(codeHtmlSucces).appendTo("#res");
-        },
-
-    });
-    </script>
-
+    <script type="text/javascript" src="http://infoweb-ens/~jacquin-c/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="script/auto.js"></script>
 
 
   </head>
@@ -29,17 +17,20 @@
         </div>
         <div id="searchWrapper">
           <form action="rechercheBD" method="post">
-            Commune <input type="text" name="commune" value="">
-            Activité <input type="text" name="activite" value="">
-            Niveau <select name="niveau">
-              <option>Tout</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
+            Commune <input list="listeCommunes" type="text" name="commune" value="">
+            <datalist id="listeCommunes">
+
+            </datalist>
+            Activité <input list="listeActivites" type="text" name="activite" value="">
+            <datalist id="listeActivites">
+
+            </datalist>
+            <br>
+            Niveau <select id="listeNiveaux" name="niveau">
+              <option value="Tout">Tout</option>
             </select>
             <div id="bouton">
-              <input id="go" type="button" name="recherche" value="Rechercher">
+              <input id="go" type="submit" name="recherche" value="Rechercher">
             </div>
           </form>
         </div>
