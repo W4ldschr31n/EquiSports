@@ -6,11 +6,11 @@
   </head>
   <body>
     <form action="rechercheC" method="post">
-      Nom de la commune <input type="text" name="commune" value="">
+      Commune <input type="text" name="commune" value="">
       <input type="submit" name="recherche" value="Rechercher">
     </form>
     <form action="rechercheA" method="post">
-      Nom de la commune <input type="text" name="activite" value="">
+      Activite <input type="text" name="activite" value="">
       <input type="submit" name="recherche" value="Rechercher">
     </form>
   </body>
