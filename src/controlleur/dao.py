@@ -1,8 +1,6 @@
 import mysql.connector
 
-champsInteressants = "a.actNom, a.actNiveau, e.equNom, i.insNom, i.codePostal, i.nomCommune, i.nomRue, i.numRue, i.longitude, i.latitude"
-tables = "ACTIVITES a, EQUIPEMENTS e, INSTALLATIONS i"
-jointure = "a.idEqu=e.idEqu and e.idIns=i.idIns"
+
 parameters ={
         'host' : "infoweb",
         'user' : "E155059S",
@@ -79,7 +77,13 @@ def getCommunes(commune):
 
     return s
 
+#Cette méthode est un "template" de requête, elle sélectionne automatiquement les données spécifiées ci-dessous avec une contrainte passée en paramètre
 def requeteCondition(condition):
+
+    champsInteressants = "a.actNom, a.actNiveau, e.equNom, i.insNom, i.codePostal, i.nomCommune, i.nomRue, i.numRue, i.longitude, i.latitude"
+    tables = "ACTIVITES a, EQUIPEMENTS e, INSTALLATIONS i"
+    jointure = "a.idEqu=e.idEqu and e.idIns=i.idIns"
+
     database = mysql.connector.connect(**parameters)
     cursor = database.cursor()
 
@@ -88,9 +92,10 @@ def requeteCondition(condition):
              "and "+condition)
 
     cursor.execute(query)
-    s=""
+    s=[]
+    champs = ["actNom","actNiveau","equNom","insNom","codePostal","nomCommune","nomRue","numRue","longitude","latitude"]
     for (resultat) in cursor:
-       s+= (str(resultat))+"<br>"
+       s.append({champs[i] : resultat[i] for i in range(0,len(resultat))})
     cursor.close()
 
     database.close()
@@ -142,4 +147,3 @@ def findByComActNiv(commune, activite, niveau):
     index += 0 if activite=="Tout" or activite=="" else 2
     index += 0 if niveau=="Tout" or niveau=="" else 1
     return tabFonctions[index](commune, activite, niveau)
-
