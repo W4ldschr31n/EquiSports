@@ -15,12 +15,12 @@ from dao import *
 def index():
     return static_file("site.html", root='./vue/html')
 
-@route('/rechercheBD', method='POST')
+@route('/rechercheBD', method='GET')
 def resultat():
-    commune = request.forms.get("commune")
-    activite = request.forms.get("activite")
-    niveau = request.forms.get("niveau")
-    return findByComActNiv(commune,activite,niveau)
+    commune = request.query.get("commune")
+    activite = request.query.get("activite")
+    niveau = request.query.get("niveau")
+    return json.dumps(findByComActNiv(commune,activite,niveau))
 
 @route('/img/<filename>')
 def routeIMG(filename):
@@ -66,92 +66,6 @@ def rechercheC():
 def rechercheA():
     activite = request.forms.get("activite")
     return findByAct(activite);
-
-@route('/autoCompleteActivite', method='POST')
-def autoA(activite):
-    parameters ={
-    'host' : "infoweb",
-    'user' : "E155059S",
-    'database' : "E155059S",
-    'password': "E155059S"
-    }
-
-    database = mysql.connector.connect(**parameters)
-    cursor = database.cursor()
-
-    activite = request.forms.get("activite")
-    query = ("SELECT a.actNom from ACTIVITES WHERE (a.actNom LIKE '"+activite+"' OR '"+activite+"' LIKE a.actNom) group by a.actNom")
-
-    cursor.execute(query)
-    s=""
-    for (resultat) in cursor:
-       s+= (str(resultat))+"<br>"
-    cursor.close()
-
-    database.close()
-
-    return s;
-
-
-
-
-
-
-@route('/installations/<champ>')
-def getInstallationsChamp(champ = "*"):
-    parameters ={
-    'host' : "infoweb",
-    'user' : "E155059S",
-    'database' : "E155059S",
-    'password': "E155059S"
-    }
-
-    #On se connecte à la base
-    database = mysql.connector.connect(**parameters)
-
-    #On crée un curseur pour effectuer des opérations
-    cursor = database.cursor()
-
-
-    #On récupère des résultats (ça marche)
-    query = ("SELECT %s FROM INSTALLATIONS")
-
-    cursor.execute(query, champ)
-
-    for (resultat) in cursor:
-        yield (resultat)
-    cursor.close()
-
-    database.close()
-
-
-@route('/nomsAct')
-def getnomsAct():
-    parameters ={
-    'host' : "infoweb",
-    'user' : "E155059S",
-    'database' : "E155059S",
-    'password': "E155059S"
-    }
-
-    #On se connecte à la base
-    database = mysql.connector.connect(**parameters)
-
-    #On crée un curseur pour effectuer des opérations
-    cursor = database.cursor()
-
-
-    #On récupère des résultats (ça marche)
-    query = ("SELECT `actNiveau` FROM ACTIVITES group by actNiveau")
-
-    cursor.execute(query)
-    s = ""
-    for (resultat) in cursor:
-        s+=str(resultat)+"<br />"
-    cursor.close()
-
-    database.close()
-    return s
 """
 
 run(host='localhost', port=8666, debug=True)
