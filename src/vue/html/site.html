@@ -16,7 +16,6 @@
           <h1>Recherche d'Equipements Sportifs</h1>
         </div>
         <div id="searchWrapper">
-          <form action="rechercheBD" method="post">
             Commune <input list="listeCommunes" type="text" name="commune" value="">
             <datalist id="listeCommunes">
 
@@ -25,14 +24,12 @@
             <datalist id="listeActivites">
 
             </datalist>
-            <br>
             Niveau <select id="listeNiveaux" name="niveau">
               <option value="Tout">Tout</option>
             </select>
-            <div id="bouton">
-              <input id="go" type="submit" name="recherche" value="Rechercher">
-            </div>
-          </form>
+          <div id="bouton">
+            <input id="go" type="submit" name="recherche" value="Rechercher">
+          </div>
         </div>
       </div>
       <div id="vip">
@@ -53,9 +50,24 @@
       </div>
       <div id="results">
         <h2>Résultats</h2>
-        <p id="res">
-
-        </p>
+        <div id="res">
+          <ul>
+            <li>
+              <a="#">
+                <span class="souligner">InsNom</span><br />
+                Act<br />
+                (Adrr)
+              </a>
+            </li>
+            <li>
+              <a="#">
+                <span class="souligner">InsNom</span><br />
+                Act<br />
+                (Adrr)
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </body>
