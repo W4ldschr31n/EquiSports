@@ -17,6 +17,7 @@ def index():
 
 @route('/rechercheBD', method='GET')
 def resultat():
+    print("lol")
     commune = request.query.get("commune")
     activite = request.query.get("activite")
     niveau = request.query.get("niveau")

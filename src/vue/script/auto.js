@@ -26,7 +26,8 @@ $(document).ready(function(){
       +"&niveau="+$("#listeNiveaux").val(),
       function(data){
         for (var i in data){
-          $("#res").append(data[i].numRue+" "+data[i].nomRue+"<br>");
+          $("ul").append("<li><a=\"#\"><span class=\"souligner\">"+data[i].insNom+"</span><br />"+data[i].actNom+"<br />"+data[i].nomCommune+" </a></li>");
+
         }
       });
     });
