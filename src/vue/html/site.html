@@ -4,10 +4,29 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="../css/site.css">
     <title>Recherche équipements sportifs</title>
+
+    <script type="text/javascript">
+        var map;
+        var markers = [];
+       function initMap(){
+        var mapProp= {
+            center:new google.maps.LatLng(47.4666700,-0.5500000),
+            zoom:8,
+          };
+          map=new google.maps.Map(document.getElementById("map"),mapProp);
+
+
+
+        }
+
+  </script>
     <script type="text/javascript" src="http://infoweb-ens/~jacquin-c/jquery-1.11.3.min.js"></script>
+
     <script type="text/javascript" src="script/auto.js"></script>
+    <script type="text/javascript" src="script/maps.js"></script>
 
 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLkPQqfXVFkNptERzCMyj0OSZzbQWm8Hc"></script>
   </head>
   <body>
     <div id="wrapper">
@@ -52,16 +71,6 @@
     <div id="wrapper2">
       <div id="map">
       </div>
-      <script>
-        function myMap() {
-          var mapProp= {
-            center:new google.maps.LatLng(47.4666700,-0.5500000),
-            zoom:8,
-          };
-          var map=new google.maps.Map(document.getElementById("map"),mapProp);
-        }
-      </script>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLkPQqfXVFkNptERzCMyj0OSZzbQWm8Hc&callback=myMap"></script>
       <div id="results">
         <h2>Résultats</h2>
         <div id="res">

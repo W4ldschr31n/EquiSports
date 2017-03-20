@@ -80,7 +80,7 @@ def getCommunes(commune):
 #Cette méthode est un "template" de requête, elle sélectionne automatiquement les données spécifiées ci-dessous avec une contrainte passée en paramètre
 def requeteCondition(condition):
 
-    champsInteressants = "a.actNom, a.actNiveau, e.equNom, i.insNom, i.codePostal, i.nomCommune, i.nomRue, i.numRue, i.longitude, i.latitude"
+    champsInteressants = "a.actNom, a.actNiveau, e.equNom, i.insNom, i.codePostal, i.nomCommune, i.nomRue, i.numRue, e.longitude, e.latitude"
     tables = "ACTIVITES a, EQUIPEMENTS e, INSTALLATIONS i"
     jointure = "a.idEqu=e.idEqu and e.idIns=i.idIns"
 
@@ -104,28 +104,28 @@ def requeteCondition(condition):
 
 def findByCom(commune, activite, niveau):
 
-    return requeteCondition("i.nomCommune LIKE '%"+commune+"%' group by a.actNom")
+    return requeteCondition("i.nomCommune = '"+commune+"'")
 
 def findByAct(commune, activite, niveau):
 
-    return requeteCondition("a.actNom LIKE '%"+activite+"%' group by i.nomCommune")
+    return requeteCondition("a.actNom = '"+activite+"'")
 
 
 def findByNiv(commune, activite, niveau):
 
-    return requeteCondition("a.actNiveau LIKE '%"+niveau+"%' group by i.insNom")
+    return requeteCondition("a.actNiveau = '"+niveau+"'")
 
 def findByComAct(commune, activite, niveau):
 
-    return requeteCondition("i.nomCommune LIKE '%"+commune+"%' and a.actNom LIKE '%"+activite+"%'")
+    return requeteCondition("i.nomCommune = '"+commune+"' and a.actNom = '"+activite+"'")
 
 def findByActNiv(commune, activite, niveau):
 
-    return requeteCondition("a.actNom LIKE '%"+activite+"%' and a.actNiveau LIKE '%"+niveau+"%'")
+    return requeteCondition("a.actNom = '"+activite+"' and a.actNiveau = '"+niveau+"'")
 
 def findByComNiv(commune, activite, niveau):
 
-    return requeteCondition("i.nomCommune LIKE '%"+commune+"%' and a.actNiveau LIKE '%"+niveau+"%'")
+    return requeteCondition("i.nomCommune = '"+commune+"' and a.actNiveau = '"+niveau+"'")
 
 def findByNone(commune, activite, niveau):
 
@@ -133,7 +133,7 @@ def findByNone(commune, activite, niveau):
 
 def findByAll(commune, activite, niveau):
 
-    return requeteCondition("i.nomCommune LIKE '%"+commune+"%' and a.actNom LIKE '%"+activite+"%' and a.actNiveau LIKE '%"+niveau+"%'")
+    return requeteCondition("i.nomCommune = '"+commune+"' and a.actNom = '"+activite+"' and a.actNiveau = '"+niveau+"'")
 
 
 #Tableau de fonctions dont l'index correspond à la combinaison de paramètres utilisés selon un calcul binaire.

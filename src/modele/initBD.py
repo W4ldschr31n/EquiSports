@@ -39,8 +39,6 @@ TABLES['INSTALLATIONS'] = (
     "  `nomCommune` VARCHAR(100) NOT NULL,"
     "  `numRue` INT(10) NOT NULL,"
     "  `nomRue` VARCHAR(100) NOT NULL,"
-    "  `longitude` FLOAT NOT NULL,"
-    "  `latitude` FLOAT NOT NULL,"
     "  PRIMARY KEY (`idIns`)"
     ") ENGINE=InnoDB")
 
@@ -49,6 +47,8 @@ TABLES['EQUIPEMENTS'] = (
     "  `idIns` INT(11) NOT NULL,"
     "  `idEqu` INT(11) NOT NULL,"
     "  `equNom` VARCHAR(100) NOT NULL,"
+    "  `longitude` FLOAT NOT NULL,"
+    "  `latitude` FLOAT NOT NULL,"
     "  PRIMARY KEY (`idIns`,`idEqu`),"
     "  CONSTRAINT `fk_idIns` FOREIGN KEY(`idIns`) REFERENCES `INSTALLATIONS`(`idIns`) ON DELETE CASCADE,"
     "  CONSTRAINT `fk_idEqu` FOREIGN KEY(`idEqu`) REFERENCES `ACTIVITES`(`idEqu`) ON DELETE CASCADE"
