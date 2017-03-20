@@ -28,8 +28,8 @@ def listeCommunes():
 def listeActivites():
     database = mysql.connector.connect(**parameters)
     cursor = database.cursor()
-
-    query = "SELECT actNom from ACTIVITES group by actNom"
+#On évite les activites non declarees
+    query = "SELECT actNom from ACTIVITES where actCode>0 group by actNom"
 
     cursor.execute(query)
 
@@ -45,8 +45,8 @@ def listeActivites():
 def listeNiveaux():
     database = mysql.connector.connect(**parameters)
     cursor = database.cursor()
-
-    query = "SELECT actNiveau from ACTIVITES group by actNiveau"
+#On ne propose pas les niveaux non-définis
+    query = "SELECT actNiveau from ACTIVITES actNiveau where actNiveau is not null group by actNiveau"
 
     cursor.execute(query)
 
@@ -143,7 +143,7 @@ def findByAll(commune, activite, niveau):
 tabFonctions = [findByNone,findByNiv,findByAct,findByActNiv,findByCom,findByComNiv,findByComAct,findByAll]
 
 def findByComActNiv(commune, activite, niveau):
-    index = 0 if commune=="Tout" or commune=="undefined" else 4
-    index += 0 if activite=="Tout" or activite=="undefined" else 2
+    index = 0 if commune=="Tout" or commune=="" else 4
+    index += 0 if activite=="Tout" or activite=="" else 2
     index += 0 if niveau=="Tout" or niveau=="" else 1
     return tabFonctions[index](commune, activite, niveau)

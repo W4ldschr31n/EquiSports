@@ -21,8 +21,9 @@ $(document).ready(function(){
     });
 
     $("#go").on("click",function(){
-      $.getJSON("rechercheBD?commune="+$("#texteCommune").val()
-      +"&activite="+$("#texteActivite").val()
+      $("ul").empty();
+      $.getJSON("rechercheBD?commune="+$("#textCom").val()
+      +"&activite="+$("#textAct").val()
       +"&niveau="+$("#listeNiveaux").val(),
       function(data){
         for (var i in data){
