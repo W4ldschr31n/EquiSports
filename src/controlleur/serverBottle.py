@@ -17,10 +17,9 @@ def index():
 
 @route('/rechercheBD', method='GET')
 def resultat():
-    print("lol")
-    commune = request.query.get("commune")
-    activite = request.query.get("activite")
-    niveau = request.query.get("niveau")
+    commune = request.query.commune
+    activite = request.query.activite
+    niveau = request.query.niveau
     return json.dumps(findByComActNiv(commune,activite,niveau))
 
 @route('/img/<filename>')

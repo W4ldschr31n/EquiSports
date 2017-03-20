@@ -17,7 +17,7 @@ def parseFileEquip(data):
 
 def parseFileAct(data):
     dataAct = data["data"]
-    result = [(tuple["EquipementId"],tuple["ActCode"],tuple["ActLib"],tuple["ActNivLib"]) for tuple in dataAct]
+    result = [(tuple["EquipementId"],tuple["ActCode"],tuple["ActLib"],tuple["ActNivLib"]) for tuple in dataAct if tuple["ActCode"]>0]
     return result
 
 def updateFile():
