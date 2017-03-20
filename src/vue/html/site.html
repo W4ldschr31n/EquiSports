@@ -16,18 +16,23 @@
           <h1>Recherche d'Equipements Sportifs</h1>
         </div>
         <div id="searchWrapper">
+          <div id="inputWrapper">
             Commune <input list="listeCommunes" type="text" name="commune" value="">
             <datalist id="listeCommunes">
 
             </datalist>
+            <br/><br />
             Activité <input list="listeActivites" type="text" name="activite" value="">
             <datalist id="listeActivites">
 
             </datalist>
+            <br /><br />
             Niveau <select id="listeNiveaux" name="niveau">
               <option value="Tout">Tout</option>
             </select>
+          </div>
           <div id="bouton">
+            <label id="labelGo" for="go"><h1>Go !</h1></label>
             <input id="go" type="submit" name="recherche" value="Rechercher">
           </div>
         </div>
