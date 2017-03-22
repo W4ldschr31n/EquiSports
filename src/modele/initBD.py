@@ -49,9 +49,8 @@ TABLES['EQUIPEMENTS'] = (
     "  `equNom` VARCHAR(100) NOT NULL,"
     "  `longitude` FLOAT NOT NULL,"
     "  `latitude` FLOAT NOT NULL,"
-    "  PRIMARY KEY (`idIns`,`idEqu`),"
-    "  CONSTRAINT `fk_idIns` FOREIGN KEY(`idIns`) REFERENCES `INSTALLATIONS`(`idIns`) ON DELETE CASCADE,"
-    "  CONSTRAINT `fk_idEqu` FOREIGN KEY(`idEqu`) REFERENCES `ACTIVITES`(`idEqu`) ON DELETE CASCADE"
+    "  PRIMARY KEY (`idIns`,`idEqu`)"
+   # "  CONSTRAINT `fk_idIns` FOREIGN KEY(`idIns`) REFERENCES `INSTALLATIONS`(`idIns`) ON DELETE CASCADE"
     ") ENGINE=InnoDB")
 TABLES['ACTIVITES'] = (
     "CREATE TABLE `ACTIVITES` ("
@@ -60,8 +59,9 @@ TABLES['ACTIVITES'] = (
     "  `actNom` VARCHAR(100),"
     "  `actNiveau` VARCHAR(100),"
     "  PRIMARY KEY (`idEqu`,`actCode`, `actNom`)"
+    #"   CONSTRAINT `fk_idEqu` FOREIGN KEY(`idEqu`) REFERENCES `EQUIPEMENTS`(`idEqu`) ON DELETE CASCADE"
     ") ENGINE=InnoDB")
-NAMES= ('INSTALLATIONS', 'ACTIVITES', 'EQUIPEMENTS')
+NAMES= ('INSTALLATIONS', 'EQUIPEMENTS', 'ACTIVITES')
 for name in NAMES:
     try:
         print("Creating table {}: ".format(name), end='')
