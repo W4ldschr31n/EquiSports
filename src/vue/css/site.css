@@ -133,6 +133,11 @@ body{
   text-decoration: underline;
 }
 
+nav ul {
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
 form {
   height: inherit;
 }
