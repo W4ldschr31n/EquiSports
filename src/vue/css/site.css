@@ -114,12 +114,32 @@ body{
   vertical-align: middle;
 }
 
+#dist {
+  height: 11.3vh;
+  width: inherit;
+  border-top: 0.5vh solid black;
+  bottom: 0;
+  background-color: #344952;
+  padding: 0;
+}
+
+#dist h3 {
+  margin-top: 2vh;
+}
+
+#dist input {
+  margin-left: 0;
+  width: 90%;
+}
+
 #labelGo h1{
   margin-top: 8.25vh;
   color: black;
 }
 
 #res ul {
+  margin-top: 0;
+  margin-bottom: 0;
   padding: 0;
 }
 
@@ -129,11 +149,21 @@ body{
   margin-bottom: 2vh;
 }
 
+#results h2 {
+  line-height: 4vh;
+}
+
 .souligner {
   text-decoration: underline;
 }
 
+nav {
+  height: 60vh;
+  border-top: 0.25vh solid black;
+}
+
 nav ul {
+  height: inherit;
   overflow: hidden;
   overflow-y: scroll;
 }
