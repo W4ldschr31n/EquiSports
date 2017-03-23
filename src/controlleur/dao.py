@@ -127,7 +127,7 @@ def findByComNiv(commune, activite, niveau):
 
     return requeteCondition("i.nomCommune = '"+commune+"' and a.actNiveau = '"+niveau+"'")
 
-def findByNone(commune, activite, niveau):
+def findByNone(commune=None, activite=None, niveau=None):
 
     return requeteCondition("1")
 

@@ -52,20 +52,5 @@ def getListeActivites():
 def getListeNiveaux():
     return json.dumps(listeNiveaux())
 
-"""
-@route('/doom')
-def apocalypse():
-    return findByNone();
-
-@route('/rechercheC', method='POST')
-def rechercheC():
-    commune = request.forms.get("commune")
-    return findByCom(commune);
-
-@route('/rechercheA', method='POST')
-def rechercheA():
-    activite = request.forms.get("activite")
-    return findByAct(activite);
-"""
 
 run(host='localhost', port=8666, debug=True)

@@ -34,22 +34,32 @@ initMap();
       function(data){
         for (var i in data){
           $("ul").append("<li><a=\"#\"><span class=\"souligner\">"+data[i].insNom+"</span><br />"+data[i].actNom+"<br />"+data[i].nomCommune+" </a></li>");
-
-
           var description = "yo : "+data[i].actNom;
-
-  var infowindow = new google.maps.InfoWindow({
-    content: description
-  });
-
-
-
-
+      var infowindow = new google.maps.InfoWindow({
+        content: description
+      });
           addMarker(new google.maps.LatLng(data[i].latitude,data[i].longitude),infowindow);
         }
+        console.log("test "+markers.length);
         setMapOnAll(map);
+        $("#spinner").attr("max",markers.length);
+        $("#spinner").val(markers.length);
       });
+
     });
+
+
+    $("#spinner").change(function(){
+        for (var i =0; i < $("#spinner").val(); i++) {
+            console.log(i);
+            markers[i].setMap(map);
+        }
+        for (var i = $("#spinner").val(); i < markers.length; i++) {
+            console.log(i);
+            markers[i].setMap(null);
+        }
+    });
+
 });
         // Adds a marker to the map and push to the array.
         function addMarker(location,infowindow) {
@@ -62,6 +72,14 @@ initMap();
            });
 
           markers.push(marker);
+        }
+
+        function showMarkers(){
+        console.log("pendant");
+          /*  for (var i = number; i < markers.length; i++) {
+            console.log(i);
+            markers[i].setMap(null);
+          }*/
         }
 
 
