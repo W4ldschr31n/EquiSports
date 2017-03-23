@@ -6,6 +6,7 @@ html{
 body{
   padding: 0;
   margin: 0;
+  font-family: "Droid Sans Mono script=latin rev=1"
 }
 
 #ChampRecherche{
@@ -18,13 +19,14 @@ body{
 }
 
 #vip {
-  background-color: green;
+  background-image: url("../img/soleil.jpg");
+  background-repeat: no-repeat;
+  background-size: 110%;
   height: inherit;
   overflow : hidden;
 }
 
 #nom{
-  background-color: blue;
   text-align: center;
   height: inherit;
   width:60%;
@@ -32,7 +34,6 @@ body{
 }
 
 #image {
-  background-color: purple;
   text-align: center  ;
   height: inherit;
   overflow: hidden;
@@ -84,7 +85,9 @@ body{
 
 #inputWrapper{
   text-align: center;
-  background-color: yellow;
+  background-image: url("../img/plage.jpg");
+  background-repeat: no-repeat;
+  background-size: 100%;
   overflow: hidden;
   float : left;
   height: inherit;
@@ -108,10 +111,15 @@ body{
   width:100%;
   height:20vh;
   padding:0;
-  background-color: #fa5548;
+  background-image: url("../img/Pokeball.svg");
+  background-size: 100%;
   text-align: center;
   display:inline-block;
   vertical-align: middle;
+}
+
+#labelGo:hover {
+  opacity: 0.75;
 }
 
 #dist {
