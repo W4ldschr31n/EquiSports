@@ -31,12 +31,20 @@ body{
   height: inherit;
   width:60%;
   float:left;
+  line-height: 2.5vh;
 }
 
 #image {
   text-align: center  ;
   height: inherit;
   overflow: hidden;
+  line-height: 2.5vh;
+}
+
+#image h3 {
+    margin-top:0;
+    margin-bottom:0;
+    line-height:5vh;
 }
 
 #wrapper {
