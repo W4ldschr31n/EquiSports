@@ -2,7 +2,7 @@ $(document).ready(function(){
 
 
 
-initMap();
+    initMap();
     $("#listeCommunes").empty();
 
     $.getJSON("listeCommunes", function(data){
@@ -38,15 +38,36 @@ initMap();
       var infowindow = new google.maps.InfoWindow({
         content: description
       });
-          addMarker(new google.maps.LatLng(data[i].latitude,data[i].longitude),infowindow);
+          addMarker(new google.maps.LatLng(data[i].latitude,data[i].longitude),infowindow,i*1000/data.length);
         }
-        console.log("test "+markers.length);
         setMapOnAll(map);
-        $("#spinner").attr("max",markers.length);
-        $("#spinner").val(markers.length);
+        $("#spinner").attr("max",data.length);
+        $("#spinner").val(data.length);
       });
 
     });
+
+
+   google.maps.event.addListener(map,"click", function (event) {
+   for (var i =0;i<circle.length;i++){
+       circle[i].setMap(null);
+    }
+
+    circle=[];
+    circle.push(new google.maps.Circle({map: map,
+        radius: 10000,
+        center: event.latLng,
+        fillColor: '#00F',
+        fillOpacity: 0.1,
+        strokeColor: '#000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        draggable: true,    // Dragable
+        editable: true      // Resizable
+    }));
+    });
+
+
 
 
     $("#spinner").change(function(){
@@ -62,17 +83,21 @@ initMap();
 
 });
         // Adds a marker to the map and push to the array.
-        function addMarker(location,infowindow) {
-          var marker = new google.maps.Marker({
-            position: location,
-            map: map
-          });
-           marker.addListener('click', function() {
-           infowindow.open(map, marker);
-           });
+        function addMarker(location,infowindow,timeout) {
+        window.setTimeout(function(){
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map
+              });
+               marker.addListener('click', function() {
+               infowindow.open(map, marker);
+               });
 
-          markers.push(marker);
+              markers.push(marker);
+            },timeout);
+
         }
+
 
         function showMarkers(){
         console.log("pendant");
