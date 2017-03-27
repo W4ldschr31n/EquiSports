@@ -68,6 +68,20 @@ $(document).ready(function(){
     });
 
 
+    $("#advOptions").on("change", function(){
+        var enabled = $("#advOptions").prop("checked")
+        if(enabled){
+            $("#advCircle").prop("disabled",false);
+            $("#dist").css("display","block");
+            $("#spinner").prop("disabled",false);
+        }
+        else{
+            $("#advCircle").prop("disabled",true);
+            $("#dist").css("display","none");
+            $("#spinner").prop("disabled",true);
+        }
+
+    });
 
 
     $("#spinner").change(function(){
