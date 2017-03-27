@@ -34,7 +34,7 @@ $(document).ready(function(){
       function(data){
         for (var i in data){
           $("ul").append("<li><a=\"#\"><span class=\"souligner\">"+data[i].insNom+"</span><br />"+data[i].actNom+"<br />"+data[i].nomCommune+" </a></li>");
-          var description = "<h3>"+data[i].actNom+"</h3>"+data[i].actNiveau+"<br />"+data[i].insNom+"<br />"+data[i].equNom+"<br />"+data[i].numRue+" "+data[i].nomRue+", "+data[i].codePostal+", "+data[i].nomCommune;
+          var description = "<h3>"+data[i].actNom+"</h3>"+data[i].actNiveau+"<br />"+data[i].insNom+"<br />"+(data[i].equNom==data[i].insNom?"":data[i].equNom+"<br />")+(data[i].numRue==0?"":data[i].numRue)+" "+(data[i].nomRue==""?"":data[i].nomRue+", ")+data[i].codePostal+", "+data[i].nomCommune;
       var infowindow = new google.maps.InfoWindow({
         content: description
       });
