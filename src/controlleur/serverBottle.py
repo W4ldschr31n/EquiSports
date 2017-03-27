@@ -34,11 +34,13 @@ def routeCSS(filename):
 def routeCSS(filename):
     return static_file(filename, root='./vue/script')
 
-@route('/autoCom', method="GET")
-def autoCom():
-    commune = request.query.get("comm")
-    print(commune)
-    return json.dumps(getCommunes(commune))
+@error(404)
+def error404(error):
+    return static_file(error404.html, root='./vue/html')
+
+@error(500)
+def error500(error):
+    return "On n'a pas prévu ce cas, désolé, vous avez cassé notre code..."
 
 @route("/listeCommunes")
 def getListeCommunes():

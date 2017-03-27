@@ -150,6 +150,14 @@ body{
   margin-right: 0;
 }
 
+#advBoutonDisabled{
+  height: inherit;
+  width: 50%;
+  overflow: hidden;
+  background-color: grey;
+  opacity:0.75
+}
+
 #advBouton {
   height: inherit;
   width: 50%;
@@ -178,6 +186,7 @@ body{
   width: inherit;
   line-height: 3vh;
 }
+
 
 #dist {
   height: 5.3vh;
