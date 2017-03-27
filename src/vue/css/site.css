@@ -154,6 +154,11 @@ body{
   height: inherit;
   width: 50%;
   overflow: hidden;
+  background-color: orange;
+}
+
+#advBouton:hover {
+  opacity: 0.75;
 }
 
 #advCircle{
@@ -167,16 +172,11 @@ body{
   text-align: center;
 }
 
-#labelAdvBouton:hover {
-  opacity: 0.75;
-}
-
 #labelAdvBouton h3 {
   margin-top:0;
   margin-bottom: 0;
   width: inherit;
   line-height: 3vh;
-  background-color: orange;
 }
 
 #dist {
