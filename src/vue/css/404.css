@@ -1,0 +1,11 @@
+body {
+  background-image: url("../img/plage404.jpg");
+  font-family: 'Droid Sans Mono', monospace;
+}
+
+h1 {
+  text-align: center;
+  line-height: 100vh;
+  font-size: 5vh;
+  color: white;
+}
