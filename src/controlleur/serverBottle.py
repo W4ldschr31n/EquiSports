@@ -36,7 +36,7 @@ def routeCSS(filename):
 
 @error(404)
 def error404(error):
-    return static_file(error404.html, root='./vue/html')
+    return static_file("404.html", root='./vue/html')
 
 @error(500)
 def error500(error):
