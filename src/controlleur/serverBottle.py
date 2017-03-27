@@ -20,7 +20,7 @@ def resultat():
     commune = request.query.commune
     activite = request.query.activite
     niveau = request.query.niveau
-    return json.dumps(findByComActNiv(commune,activite,niveau))
+    return json.dumps(find(commune,activite,niveau))
 
 @route('/img/<filename>')
 def routeIMG(filename):
@@ -53,4 +53,4 @@ def getListeNiveaux():
     return json.dumps(listeNiveaux())
 
 
-run(host='localhost', port=8666, debug=True)
+run(host='0.0.0.0', port=8666, debug=True)

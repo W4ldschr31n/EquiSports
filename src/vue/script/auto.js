@@ -34,7 +34,7 @@ $(document).ready(function(){
       function(data){
         for (var i in data){
           $("ul").append("<li><a=\"#\"><span class=\"souligner\">"+data[i].insNom+"</span><br />"+data[i].actNom+"<br />"+data[i].nomCommune+" </a></li>");
-          var description = "yo : "+data[i].actNom;
+          var description = ;
       var infowindow = new google.maps.InfoWindow({
         content: description
       });
@@ -62,8 +62,8 @@ $(document).ready(function(){
         strokeColor: '#000',
         strokeOpacity: 0.8,
         strokeWeight: 2,
-        draggable: true,    // Dragable
-        editable: true      // Resizable
+        draggable: true,
+        editable: true
     }));
     });
 
@@ -90,6 +90,10 @@ $(document).ready(function(){
                 map: map
               });
                marker.addListener('click', function() {
+               if(openWindow){
+                    openWindow.close()
+               }
+               openWindow = infowindow;
                infowindow.open(map, marker);
                });
 
@@ -98,14 +102,6 @@ $(document).ready(function(){
 
         }
 
-
-        function showMarkers(){
-        console.log("pendant");
-          /*  for (var i = number; i < markers.length; i++) {
-            console.log(i);
-            markers[i].setMap(null);
-          }*/
-        }
 
 
         // Sets the map on all markers in the array.

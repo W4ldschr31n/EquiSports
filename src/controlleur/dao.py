@@ -142,7 +142,7 @@ def findByAll(commune, activite, niveau):
 #Par exemple si on veut utiliser la commune et l'activité, on utilise l'index 1*2^2+0*2^1+1*2^0 = 4+0+1 = 5
 tabFonctions = [findByNone,findByNiv,findByAct,findByActNiv,findByCom,findByComNiv,findByComAct,findByAll]
 
-def findByComActNiv(commune, activite, niveau):
+def find(commune, activite, niveau):
     index = 0 if commune=="Tout" or commune=="" else 4
     index += 0 if activite=="Tout" or activite=="" else 2
     index += 0 if niveau=="Tout" or niveau=="" else 1
