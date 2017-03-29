@@ -50,25 +50,32 @@ $(document).ready(function(){
 
     });
 
+    $("#advCircle").on("click",function(){
+        dragCircleOnNextClick = true;
+    });
 
    google.maps.event.addListener(map,"click", function (event) {
-   for (var i =0;i<circle.length;i++){
-       circle[i].setMap(null);
-    }
+       if(dragCircleOnNextClick){
+           for (var i =0;i<circle.length;i++){
+               circle[i].setMap(null);
+            }
 
-    circle=[];
-    circle.push(new google.maps.Circle({map: map,
-        radius: 10000,
-        center: event.latLng,
-        fillColor: '#00F',
-        fillOpacity: 0.1,
-        strokeColor: '#000',
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        draggable: true,
-        editable: true
-    }));
-    });
+            circle=[];
+            circle.push(new google.maps.Circle({map: map,
+                radius: 10000,
+                center: event.latLng,
+                fillColor: '#00F',
+                fillOpacity: 0.1,
+                strokeColor: '#000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                draggable: false,
+                editable: true
+            }));
+            dragCircleOnNextClick = false;
+        }
+    } );
+
 
 
     $("#advOptions").on("change", function(){
