@@ -43,24 +43,37 @@ $(document).ready(function(){
         //Si on n'a pas de résultat correspondant
             $("ul").append("<h1>Aucun résultat</h1>")
         }
-        //Sinon, on ajoute un marqueur pour chaque activité ainsi qu'un élément dans la liste de résultats
-        for (var i in data){
-          $("ul").append($("<li><a=\"#\"><span class=\"souligner\">"+data[i].insNom+"</span><br />"+data[i].actNom+"<br />"+data[i].nomCommune+" </a></li>"));
-
-          console.log("boucle : "+i);
-          var description = "<h3>"+data[i].actNom+"</h3>"+data[i].actNiveau+"<br />"+data[i].insNom+"<br />"+(data[i].equNom==data[i].insNom?"":data[i].equNom+"<br />")+(data[i].numRue==0?"":data[i].numRue)+" "+(data[i].nomRue==""?"":data[i].nomRue+", ")+data[i].codePostal+", "+data[i].nomCommune;
-          //Informations affichées lors du click sur un marqueur
-         var infowindow = new google.maps.InfoWindow({
-             content: description
-         });
-          addMarker(new google.maps.LatLng(data[i].latitude,data[i].longitude),infowindow,i*1000/data.length);
-        }
-        if($("#advOptions").prop("checked")){
-            reviewMarkers();
-        }
         else{
-            setMapOnAll(map);
+
+            //Sinon, on ajoute un marqueur pour chaque activité ainsi qu'un élément dans la liste de résultats
+            for (var i in data){
+              $("ul").append($("<li><a=\"#\"><span class=\"souligner\">"+data[i].insNom+"</span><br />"+data[i].actNom+"<br />"+data[i].nomCommune+" </a></li>"));
+
+              console.log("boucle : "+i);
+              var description = "<h3>"+data[i].actNom+"</h3>"+data[i].actNiveau+"<br />"+data[i].insNom+"<br />"+(data[i].equNom==data[i].insNom?"":data[i].equNom+"<br />")+(data[i].numRue==0?"":data[i].numRue)+" "+(data[i].nomRue==""?"":data[i].nomRue+", ")+data[i].codePostal+", "+data[i].nomCommune;
+              //Informations affichées lors du click sur un marqueur
+             var infowindow = new google.maps.InfoWindow({
+                 content: description
+             });
+              addMarker(new google.maps.LatLng(data[i].latitude,data[i].longitude),infowindow,i*1000/data.length);
+            }
+            //On ajoute un click listener sur chaque élément de la liste
+            $("li").each(function(i){
+            console.log("each : "+i);
+            //Cela déclenche le click du marqueur associé
+                $(this).on("click",function(){
+                    google.maps.event.trigger(markers[i],"click");
+                    }
+                )});
+            if($("#advOptions").prop("checked")){
+                reviewMarkers();
+            }
+            else{
+                setMapOnAll(map);
+            }
+
         }
+
       });
     });
 
