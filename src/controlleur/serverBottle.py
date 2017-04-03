@@ -5,11 +5,6 @@ path ="/hometu/etudiants/r/i/E155059S/PycharmProjects/ProdLog/src/controller"
 sys.path.append(path)
 from dao import *
 
-
-# Variable "statiques" dont on a besoin pour l'autocomplétion
-
-
-
 @route('/')
 @route('/recherche')
 def index():
@@ -55,4 +50,4 @@ def getListeNiveaux():
     return json.dumps(listeNiveaux())
 
 
-run(host='0.0.0.0', port=8666, debug=True)
+run(host='localhost', port=8666, debug=True)

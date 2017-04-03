@@ -1,6 +1,6 @@
 import mysql.connector
 
-
+#Données pour se connecter à la BDD
 parameters ={
         'host' : "infoweb",
         'user' : "E155059S",
@@ -16,66 +16,48 @@ def listeCommunes():
 
     cursor.execute(query)
 
-    s=[]
+    listeResultat=[]
     for (resultat) in cursor:
-       s.append(resultat[0])
+       listeResultat.append(resultat[0])
 
     cursor.close()
     database.close()
 
-    return s
+    return listeResultat
 
 def listeActivites():
     database = mysql.connector.connect(**parameters)
     cursor = database.cursor()
-#On évite les activites non declarees
+    #On évite les activites non declarees
     query = "SELECT actNom from ACTIVITES where actCode>0 group by actNom"
 
     cursor.execute(query)
 
-    s=[]
+    listeResultat=[]
     for (resultat) in cursor:
-       s.append(resultat[0])
+       listeResultat.append(resultat[0])
 
     cursor.close()
     database.close()
 
-    return s
+    return listeResultat
 
 def listeNiveaux():
     database = mysql.connector.connect(**parameters)
     cursor = database.cursor()
-#On ne propose pas les niveaux non-définis
+    #On évite les niveaux non-définis
     query = "SELECT actNiveau from ACTIVITES actNiveau where actNiveau is not null group by actNiveau"
 
     cursor.execute(query)
 
-    s=[]
+    listeResultat=[]
     for (resultat) in cursor:
-       s.append(resultat[0])
+       listeResultat.append(resultat[0])
 
     cursor.close()
     database.close()
 
-    return s
-
-def getCommunes(commune):
-    database = mysql.connector.connect(**parameters)
-    cursor = database.cursor()
-    print(commune)
-
-    query = "SELECT nomCommune from INSTALLATIONS where nomCommune LIKE '%"+commune+"%' group by nomCommune"
-
-    cursor.execute(query)
-
-    s=[]
-    for (resultat) in cursor:
-       s.append(resultat[0])
-
-    cursor.close()
-    database.close()
-
-    return s
+    return listeResultat
 
 #Cette méthode est un "template" de requête, elle sélectionne automatiquement les données spécifiées ci-dessous avec une contrainte passée en paramètre
 def requeteCondition(condition):
@@ -92,15 +74,16 @@ def requeteCondition(condition):
              "and "+condition)
 
     cursor.execute(query)
-    s=[]
+    listeResultat=[]
     champs = ["actNom","actNiveau","equNom","insNom","codePostal","nomCommune","nomRue","numRue","longitude","latitude"]
     for (resultat) in cursor:
-       s.append({champs[i] : resultat[i] for i in range(0,len(resultat))})
+        #On crée une liste de dictionnaires pour retrouver facilement les champs une fois que l'on parse en JSON
+       listeResultat.append({champs[i] : resultat[i] for i in range(0,len(resultat))})
     cursor.close()
 
     database.close()
 
-    return s
+    return listeResultat
 
 def findByCom(commune, activite, niveau):
 
@@ -128,7 +111,7 @@ def findByComNiv(commune, activite, niveau):
     return requeteCondition("i.nomCommune = '"+commune+"' and a.actNiveau = '"+niveau+"'")
 
 def findByNone(commune=None, activite=None, niveau=None):
-
+    #Renvoie toute la base de données (lent)
     return requeteCondition("1")
 
 def findByAll(commune, activite, niveau):
@@ -137,9 +120,9 @@ def findByAll(commune, activite, niveau):
 
 
 #Tableau de fonctions dont l'index correspond à la combinaison de paramètres utilisés selon un calcul binaire.
-#niveau correspond à 2^0; activite correspond à 2^1 et commune correspond à 2^2
+#commune correspond à 2^2, activite correspond à 2^1, et niveau correspond à 2^0
 #chaque "bit" correspondant à un paramètre est levé si on utilise le paramètre.
-#Par exemple si on veut utiliser la commune et l'activité, on utilise l'index 1*2^2+0*2^1+1*2^0 = 4+0+1 = 5
+#Par exemple si on veut utiliser la commune et l'activité, on utilise l'index "110" : 1*2^2+1*2^1+0*2^0 = 4+2+0 = 6
 tabFonctions = [findByNone,findByNiv,findByAct,findByActNiv,findByCom,findByComNiv,findByComAct,findByAll]
 
 def find(commune, activite, niveau):

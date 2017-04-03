@@ -1,5 +1,6 @@
 import mysql.connector
 
+#Paramètres pour se connecter à la base
 parameters ={
 'host' : "infoweb",
 'user' : "E155059S",
@@ -16,11 +17,11 @@ print("Connecté :" ,database.is_connected())
 #On crée un curseur pour effectuer des opérations
 cursor = database.cursor()
 
-#Nettoyage base
+#Nettoyage de la base dans un ordre particulier pour les dépendances des données
 delete = ("EQUIPEMENTS", "ACTIVITES", "INSTALLATIONS")
 for name in delete:
     try:
-        print("Deleting table {}: ".format(name), end='')
+        print("Suppression de la table {}: ".format(name), end='')
         cursor.execute("DROP TABLE "+name)
     except mysql.connector.Error as err:
         print(err.msg)
@@ -61,10 +62,12 @@ TABLES['ACTIVITES'] = (
     "  PRIMARY KEY (`idEqu`,`actCode`, `actNom`)"
     #"   CONSTRAINT `fk_idEqu` FOREIGN KEY(`idEqu`) REFERENCES `EQUIPEMENTS`(`idEqu`) ON DELETE CASCADE"
     ") ENGINE=InnoDB")
+
+#Creation des tables dans un ordre précis pour les dépendances des données
 NAMES= ('INSTALLATIONS', 'EQUIPEMENTS', 'ACTIVITES')
 for name in NAMES:
     try:
-        print("Creating table {}: ".format(name), end='')
+        print("Creation de la table {}: ".format(name), end='')
         cursor.execute(TABLES[name])
     except mysql.connector.Error as err:
             print(err.msg)

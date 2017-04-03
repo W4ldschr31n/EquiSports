@@ -1,44 +1,19 @@
 import mysql.connector
-import json
 import csv
 from urllib.request import urlopen
 
+#Ce programme permet de récupérer les données sur le site du conseil régional, puis de les insérer dans la base de données
 
-#On définit des méthodes pour extraire les donnée intéressantes selon les fichiers (stockés sur le disque)
+#Accès aux fichiers de données
+chemins={
+    'activites' : '../data/fiches_activites.csv',
+    'equipements' : '../data/fiches_equipements.csv',
+    'installations' : '../data/fiches_installations.csv'
+}
 
-def parseFileInstall():
-    result = []
-    with open(chemins["installations"], newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        i=0
-        for row in reader:
-            result.append([row["Numéro de l'installation"],row["Nom usuel de l'installation"],row["Code postal"],row["Nom de la commune"],row["Numero de la voie"],row["Nom de la voie"]])
-            i=i+1
-        print(i)
-    return result
 
-def parseFileEquip():
-    result = []
-    with open(chemins["equipements"], newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        i=0
-        for row in reader:
-            result.append([row["InsNumeroInstall"],row["EquipementId"],row["EquNom"],row["EquGpsX"],row["EquGpsY"]])
-            i=i+1
-        print(i)
-    return result
 
-def parseFileAct():
-    result = []
-    with open(chemins["activites"], newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        i=0
-        for row in reader:
-            result.append([row["EquipementId"],row["ActCode"],row["ActLib"],row["ActNivLib"]])
-            i=i+1
-        print(i)
-    return result
-
+#On télécharge les fichiers sur le disque et on les enregistre sous un nom défini dans le répertoire data/
 def updateFile():
     url1 = 'http://data.paysdelaloire.fr/api/publication/23440003400026_J335/installations_table/content/?format=csv'
     url2 = 'http://data.paysdelaloire.fr/fileadmin/data/datastore/rpdl/sport/23440003400026_J336/equipements.csv'
@@ -57,28 +32,46 @@ def updateFile():
         print('Ecriture fiches_activites.csv finie')
 
 
-#Accès aux fichiers de données
-chemins={
-    'activites' : '../data/fiches_activites.csv',
-    'equipements' : '../data/fiches_equipements.csv',
-    'installations' : '../data/fiches_installations.csv'
-}
+#On définit des méthodes pour extraire les données intéressantes selon les fichiers (stockés sur le disque)
+
+def parseFileInstall():
+    result = []
+    with open(chemins["installations"], newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            result.append([row["Numéro de l'installation"],row["Nom usuel de l'installation"],row["Code postal"],row["Nom de la commune"],row["Numero de la voie"],row["Nom de la voie"]])
+    return result
+
+def parseFileEquip():
+    result = []
+    with open(chemins["equipements"], newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            result.append([row["InsNumeroInstall"],row["EquipementId"],row["EquNom"],row["EquGpsX"],row["EquGpsY"]])
+    return result
+
+def parseFileAct():
+    result = []
+    with open(chemins["activites"], newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            result.append([row["EquipementId"],row["ActCode"],row["ActLib"],row["ActNivLib"]])
+    return result
 
 
 #On crée des jeux de données traitées
-#updateFile()
-
-
-
-
+updateFile()
 dataInstall = parseFileInstall()
 dataEquip = parseFileEquip()
 dataAct = parseFileAct()
 
+"""On peut les afficher si besoin
 print(dataInstall)
 print(dataEquip)
 print(dataAct)
+"""
 
+#Paramètres de connexion à la BDD
 parameters ={
 'host' : "infoweb",
 'user' : "E155059S",
@@ -99,16 +92,22 @@ insertions={}
 
 insertions["install"] = ("INSERT INTO `INSTALLATIONS` "\
                "VALUES (%s, %s, %s, %s, %s, %s)")
+#Les données du site pour les activites ne sont pas toujours bien écrites, on effectue un INSERT IGNORE pour ne pas arrêter l'exécution du programme
 insertions["act"] = ("INSERT IGNORE INTO `ACTIVITES` "\
                "VALUES (%s, %s, %s, %s)")
 insertions["equip"] = ("INSERT INTO `EQUIPEMENTS` "\
                "VALUES (%s, %s, %s, %s, %s)")
 
-
+#On insère toutes nos données dans un ordre particulier pour les dépendances de la BDD
+print("Insertion des installations...",end="")
 cursor.executemany(insertions["install"], dataInstall)
+print("faite")
+print("Insertion des activites...",end="")
 cursor.executemany(insertions["act"], dataAct)
+print("faite")
+print("Insertion des equipements...",end="")
 cursor.executemany(insertions["equip"], dataEquip)
-
+print("faite")
 database.commit()
 
 cursor.close()
