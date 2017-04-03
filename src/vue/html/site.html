@@ -9,7 +9,7 @@
     <script type="text/javascript">
         var map;
         var markers = [];
-        var circle =[];
+        var circle;
         var openWindow = false;
         var dragCircleOnNextClick = false;
        function initMap(){
@@ -18,6 +18,17 @@
             zoom:8,
           };
           map=new google.maps.Map(document.getElementById("map"),mapProp);
+          circle =new google.maps.Circle({map: null,
+                radius: 10000,
+                center: new google.maps.LatLng(47.4666700,-0.5500000),
+                fillColor: '#00F',
+                fillOpacity: 0.1,
+                strokeColor: '#000',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                draggable: false,
+                editable: false
+            });
 
 
 
@@ -27,7 +38,6 @@
     <script type="text/javascript" src="http://infoweb-ens/~jacquin-c/jquery-1.11.3.min.js"></script>
 
     <script type="text/javascript" src="script/auto.js"></script>
-
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLkPQqfXVFkNptERzCMyj0OSZzbQWm8Hc"></script>
   </head>
@@ -83,7 +93,7 @@
           </nav>
           <div id="opt">
             <div id="advOpt">
-              <input id="advOptions" type="checkbox" name="advOptions" checked="checked"> Options avancées </input>
+              <input id="advOptions" type="checkbox" name="advOptions" > Options avancées </input>
             </div>
             <div id="advBouton">
               <label id="labelAdvBouton" for="advCircle"><h3>Choisir Localisation</h3></label>
@@ -92,7 +102,8 @@
           </div>
           <div id="dist">
             <h3 id="titreAdv">Distance</h3>
-            <input id ="spinner" type="range" name="distance" min="1" max="10" value="1">
+            <input id ="spinner" type="range" name="distance" min="1" max="100000" value="10000" step="100">
+            <h5 id="rayon">10km</h5>
           </div>
         </div>
       </div>
