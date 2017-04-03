@@ -43,8 +43,11 @@ $(document).ready(function(){
         //Si on n'a pas de résultat correspondant
             $("ul").append("<h1>Aucun résultat</h1>")
         }
+        //Si la bdd plante on le signale
+        else if(data[0]=="err"){
+            $("ul").append("<h1>Erreur connexion BDD</h1>")
+        }
         else{
-
             //Sinon, on ajoute un marqueur pour chaque activité ainsi qu'un élément dans la liste de résultats
             for (var i in data){
               $("ul").append($("<li><a=\"#\"><span class=\"souligner\">"+data[i].insNom+"</span><br />"+data[i].actNom+"<br />"+data[i].nomCommune+" </a></li>"));
@@ -134,6 +137,7 @@ $(document).ready(function(){
                }
                openWindow = infowindow;
                infowindow.open(map, marker);
+               this.setMap(map);
                });
 
               markers.push(marker);

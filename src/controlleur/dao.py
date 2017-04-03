@@ -9,53 +9,63 @@ parameters ={
         }
 
 def listeCommunes():
-    database = mysql.connector.connect(**parameters)
-    cursor = database.cursor()
+    try:
+        database = mysql.connector.connect(**parameters)
+        cursor = database.cursor()
 
-    query = "SELECT nomCommune from INSTALLATIONS group by nomCommune"
+        query = "SELECT nomCommune from INSTALLATIONS group by nomCommune"
 
-    cursor.execute(query)
+        cursor.execute(query)
 
-    listeResultat=[]
-    for (resultat) in cursor:
-       listeResultat.append(resultat[0])
+        listeResultat=[]
+        for (resultat) in cursor:
+           listeResultat.append(resultat[0])
 
-    cursor.close()
-    database.close()
+        cursor.close()
+        database.close()
+    except (mysql.connector.errors.InterfaceError,mysql.connector.errors.ProgrammingError):
+        listeResultat=["Erreur connexion BDD"]
 
     return listeResultat
 
+
 def listeActivites():
-    database = mysql.connector.connect(**parameters)
-    cursor = database.cursor()
-    #On évite les activites non declarees
-    query = "SELECT actNom from ACTIVITES where actCode>0 group by actNom"
+    try:
+        database = mysql.connector.connect(**parameters)
+        cursor = database.cursor()
+        #On évite les activites non declarees
+        query = "SELECT actNom from ACTIVITES where actCode>0 group by actNom"
 
-    cursor.execute(query)
+        cursor.execute(query)
 
-    listeResultat=[]
-    for (resultat) in cursor:
-       listeResultat.append(resultat[0])
+        listeResultat=[]
+        for (resultat) in cursor:
+           listeResultat.append(resultat[0])
 
-    cursor.close()
-    database.close()
+        cursor.close()
+        database.close()
+    except (mysql.connector.errors.InterfaceError,mysql.connector.errors.ProgrammingError):
+        listeResultat=["Erreur connexion BDD"]
 
     return listeResultat
 
 def listeNiveaux():
-    database = mysql.connector.connect(**parameters)
-    cursor = database.cursor()
-    #On évite les niveaux non-définis
-    query = "SELECT actNiveau from ACTIVITES actNiveau where actNiveau is not null group by actNiveau"
+    try:
+        database = mysql.connector.connect(**parameters)
+        cursor = database.cursor()
+        #On évite les niveaux non-définis ou vides
+        query = "SELECT actNiveau from ACTIVITES actNiveau where actNiveau is not null and not (actNiveau='') group by actNiveau"
 
-    cursor.execute(query)
+        cursor.execute(query)
 
-    listeResultat=[]
-    for (resultat) in cursor:
-       listeResultat.append(resultat[0])
+        listeResultat=[]
+        for (resultat) in cursor:
+           listeResultat.append(resultat[0])
 
-    cursor.close()
-    database.close()
+        cursor.close()
+        database.close()
+    except (mysql.connector.errors.InterfaceError,mysql.connector.errors.ProgrammingError):
+        listeResultat=["Erreur connexion BDD"]
 
     return listeResultat
 
@@ -66,22 +76,26 @@ def requeteCondition(condition):
     tables = "ACTIVITES a, EQUIPEMENTS e, INSTALLATIONS i"
     jointure = "a.idEqu=e.idEqu and e.idIns=i.idIns"
 
-    database = mysql.connector.connect(**parameters)
-    cursor = database.cursor()
+    try:
+        database = mysql.connector.connect(**parameters)
+        cursor = database.cursor()
 
 
-    query = ("SELECT "+champsInteressants+" from "+tables+" where "+jointure+" "\
-             "and "+condition)
+        query = ("SELECT "+champsInteressants+" from "+tables+" where "+jointure+" "\
+                 "and "+condition)
 
-    cursor.execute(query)
-    listeResultat=[]
-    champs = ["actNom","actNiveau","equNom","insNom","codePostal","nomCommune","nomRue","numRue","longitude","latitude"]
-    for (resultat) in cursor:
-        #On crée une liste de dictionnaires pour retrouver facilement les champs une fois que l'on parse en JSON
-       listeResultat.append({champs[i] : resultat[i] for i in range(0,len(resultat))})
-    cursor.close()
+        cursor.execute(query)
+        listeResultat=[]
+        champs = ["actNom","actNiveau","equNom","insNom","codePostal","nomCommune","nomRue","numRue","longitude","latitude"]
+        for (resultat) in cursor:
+            #On crée une liste de dictionnaires pour retrouver facilement les champs une fois que l'on parse en JSON
+           listeResultat.append({champs[i] : resultat[i] for i in range(0,len(resultat))})
+        cursor.close()
 
-    database.close()
+        database.close()
+    #Si la bdd plante on renvoie un message d'erreur
+    except (mysql.connector.errors.InterfaceError,mysql.connector.errors.ProgrammingError):
+        listeResultat=["err"]
 
     return listeResultat
 
