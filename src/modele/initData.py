@@ -60,6 +60,7 @@ def parseFileAct():
 
 
 #On crée des jeux de données traitées
+print("Récupération des données")
 updateFile()
 dataInstall = parseFileInstall()
 dataEquip = parseFileEquip()
