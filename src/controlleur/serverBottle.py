@@ -6,7 +6,6 @@ sys.path.append(path)
 from dao import *
 
 @route('/')
-@route('/recherche')
 def index():
     return static_file("site.html", root='./vue/html')
 

@@ -4,11 +4,12 @@ from urllib.request import urlopen
 
 #Ce programme permet de récupérer les données sur le site du conseil régional, puis de les insérer dans la base de données
 
-#Accès aux fichiers de données
+#Accès aux fichiers de données, path à changer dès lors qu'on change de répertoire pour le projet
+path='/hometu/etudiants/r/i/E155059S/PycharmProjects/ProdLog'
 chemins={
-    'activites' : '../data/fiches_activites.csv',
-    'equipements' : '../data/fiches_equipements.csv',
-    'installations' : '../data/fiches_installations.csv'
+    'activites' : path+'/data/fiches_activites.csv',
+    'equipements' : path+'/data/fiches_equipements.csv',
+    'installations' : path+'/data/fiches_installations.csv'
 }
 
 
@@ -19,15 +20,15 @@ def updateFile():
     url2 = 'http://data.paysdelaloire.fr/fileadmin/data/datastore/rpdl/sport/23440003400026_J336/equipements.csv'
     url3 = 'http://data.paysdelaloire.fr/fileadmin/data/datastore/pdl/PLUS15000/J334_equipements_activites.csv'
 
-    with open('../data/fiches_installations.csv', 'wb') as datafile1:
+    with open(chemins["installations"], 'wb') as datafile1:
         datafile1.write(urlopen(url1).read())
         print('Ecriture fiches_installations.csv finie')
 
-    with open('../data/fiches_equipements.csv', 'wb') as datafile2:
+    with open(chemins["equipements"], 'wb') as datafile2:
         datafile2.write(urlopen(url2).read())
         print('Ecriture fiche_equipements.csv finie')
 
-    with open('../data/fiches_activites.csv', 'wb') as datafile3:
+    with open(chemins["activites"], 'wb') as datafile3:
         datafile3.write(urlopen(url3).read())
         print('Ecriture fiches_activites.csv finie')
 
