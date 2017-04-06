@@ -51,7 +51,6 @@ TABLES['EQUIPEMENTS'] = (
     "  `longitude` FLOAT NOT NULL,"
     "  `latitude` FLOAT NOT NULL,"
     "  PRIMARY KEY (`idIns`,`idEqu`)"
-   # "  CONSTRAINT `fk_idIns` FOREIGN KEY(`idIns`) REFERENCES `INSTALLATIONS`(`idIns`) ON DELETE CASCADE"
     ") ENGINE=InnoDB")
 TABLES['ACTIVITES'] = (
     "CREATE TABLE `ACTIVITES` ("
@@ -60,7 +59,6 @@ TABLES['ACTIVITES'] = (
     "  `actNom` VARCHAR(100),"
     "  `actNiveau` VARCHAR(100),"
     "  PRIMARY KEY (`idEqu`,`actCode`, `actNom`)"
-    #"   CONSTRAINT `fk_idEqu` FOREIGN KEY(`idEqu`) REFERENCES `EQUIPEMENTS`(`idEqu`) ON DELETE CASCADE"
     ") ENGINE=InnoDB")
 
 #Creation des tables dans un ordre précis pour les dépendances des données
